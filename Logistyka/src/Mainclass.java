@@ -3,12 +3,17 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+
+import org.apache.commons.math3.distribution.NormalDistribution;
+
+
 
 
 public class Mainclass {
@@ -460,9 +465,18 @@ public class Mainclass {
 			  liczba2 = Integer.parseInt(wejscie);
 			  double x;//dla tej wartosci szukamy prawdopodobienstwa w tablicach
 			  x=((liczba2-czas_trwania_przeds)/Math.sqrt(war_tr));
-			
+			 double prawdopodobienstwo=0;		
+			 NormalDistribution prawd = new NormalDistribution();
+			 
+			 prawdopodobienstwo = prawd.cumulativeProbability(x);
+			  
+			  /**Ucinanie zbednych miejsc po przecinku**/
+			  prawdopodobienstwo*=1000;
+			  prawdopodobienstwo=Math.round(prawdopodobienstwo);
+			  prawdopodobienstwo/=1000;
+			  /************************************************/
 				Component frame = null;
-				String wyjscie = "Sciezka Krytyczna to: " + krytyczna_sciezka + " Minimalny czas trwania: " + czas_trwania_przeds + " \nPrawdopodobienstwo realizacji przedsiewziecia w czasie: " + liczba2 + " jest rowne: "+"TUTAJ WARTOSC PRAWDOPO" + " suma wariancji "+ war_tr + " prawdopodobinstwo dla x = " + x;
+				String wyjscie = "Sciezka Krytyczna to: " + krytyczna_sciezka + " Minimalny czas trwania: " + czas_trwania_przeds + " \nPrawdopodobienstwo realizacji przedsiewziecia w czasie: " + liczba2 + " jest rowne: "+ prawdopodobienstwo;
 				JOptionPane.showMessageDialog(frame,
 				    wyjscie,
 				    "Wynik dzialania PERT",
