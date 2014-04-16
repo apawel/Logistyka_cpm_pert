@@ -298,7 +298,7 @@ public class Mainclass {
 				{
 				nazwa_czyn=Character.toString(nazwa);	
 				nazwa++;
-				//czas_trwania=Integer.parseInt(odczyt.next());
+				
 				polacz=odczyt.next();
 				pocz=Integer.parseInt(polacz.substring(1,2));
 				koniec=Integer.parseInt(polacz.substring(3,4));
@@ -313,7 +313,7 @@ public class Mainclass {
 				{
 					ile_wierzch=koniec;
 				}
-				magazyn.add(new Magazyn(nazwa_czyn, czas_trwania, pocz, koniec));
+				magazyn.add(new Magazyn(nazwa_czyn,czas_trwania,pocz,tc,tm,tp,koniec));//przy Pert troche wiecej dodawania 
 				}
 				odczyt.close();
 				Iterator<Magazyn> it = magazyn.iterator();
@@ -334,7 +334,7 @@ public class Mainclass {
 			{
 				Magazyn element = it.next();
 				
-				krawedz.add(new Edge(element.getNazwa_czyn(),wierzcholek.get(element.getPocz()-1),wierzcholek.get(element.getKoniec()-1), element.getCzas_trwania()));
+				krawedz.add(new Edge(element.getNazwa_czyn(),wierzcholek.get(element.getPocz()-1),wierzcholek.get(element.getKoniec()-1), element.getCzas_trwania(),element.getTc(),element.getTm(),element.getTp()));
 				
 			}
 		/*Uzupelnianie wierzcholkow*/
@@ -401,6 +401,10 @@ public class Mainclass {
 				
 				//System.out.println("Werzcholek: " + wierzcholek.get(i).getNumer_zdarzenia() + " najwcz_czas: " + wierzcholek.get(i).getNajwczesniejszy_moment() + " najpoz_czas: " + wierzcholek.get(i).getNajpozniejszy_moment() + " luz_czas: " + wierzcholek.get(i).getZapas_czasu());
 			}
+			/**Tu tworze tablice w ktorej przechowuje sciezke krytyczna po krawedziach**/
+			ArrayList<Edge> sciezka_krytyczna = new ArrayList<>();
+			/***/
+			
 			String krytyczna_sciezka = "";
 			String max = "";
 			int czas_trwania_przeds =0;
@@ -436,14 +440,29 @@ public class Mainclass {
 						//System.out.println("Dodaje " + max);
 						czas_trwania_przeds+=krawedz.get(i).getWeight();
 						krawedz.get(i).getBegin().setCzy_polaczaona(true);
+						krawedz.get(i).setKrytyczna(true);
+						sciezka_krytyczna.add(krawedz.get(i));
 					krytyczna_sciezka += " -> " + max;//+krawedz.get(i).getNazwa();	
 					}
 				}
 				
 			}
+			double war_tr=0.0;//suma wariancji
+			for(Edge x: sciezka_krytyczna)
+			{
+				x.setWariancja();
+				//System.out.println("krawedz " + x.getBegin().getNumer_zdarzenia() + "-" + x.getEnd().getNumer_zdarzenia() + " wariancja: " + x.getWariancja());
+				war_tr+=x.getWariancja();
+			}
+			wejscie = JOptionPane.showInputDialog("Dla jakiego czasu realizacji wyznaczyc prawdopodobienstwo?"); 
+			if(wejscie == null)
+				wejscie=""+czas_trwania_przeds;		
+			  liczba2 = Integer.parseInt(wejscie);
+			  double x;//dla tej wartosci szukamy prawdopodobienstwa w tablicach
+			  x=((liczba2-czas_trwania_przeds)/Math.sqrt(war_tr));
 			
 				Component frame = null;
-				String wyjscie = "Sciezka Krytyczna to: " + krytyczna_sciezka + " Minimalny czas trwania: " + czas_trwania_przeds;
+				String wyjscie = "Sciezka Krytyczna to: " + krytyczna_sciezka + " Minimalny czas trwania: " + czas_trwania_przeds + " \nPrawdopodobienstwo realizacji przedsiewziecia w czasie: " + liczba2 + " jest rowne: "+"TUTAJ WARTOSC PRAWDOPO" + " suma wariancji "+ war_tr + " prawdopodobinstwo dla x = " + x;
 				JOptionPane.showMessageDialog(frame,
 				    wyjscie,
 				    "Wynik dzialania PERT",

@@ -3,7 +3,32 @@ public class Magazyn {
 	String nazwa_czyn;
 	int czas_trwania;
 	int pocz;
+	int tc,tm,tp;
 	
+	public int getTc() {
+		return tc;
+	}
+
+	public void setTc(int tc) {
+		this.tc = tc;
+	}
+
+	public int getTm() {
+		return tm;
+	}
+
+	public void setTm(int tm) {
+		this.tm = tm;
+	}
+
+	public int getTp() {
+		return tp;
+	}
+
+	public void setTp(int tp) {
+		this.tp = tp;
+	}
+
 	public String getNazwa_czyn() {
 		return nazwa_czyn;
 	}
@@ -41,6 +66,21 @@ public class Magazyn {
 		this.nazwa_czyn = nazwa_czyn;
 		this.czas_trwania = czas_trwania;
 		this.pocz = pocz;
+		this.koniec = koniec;
+		this.tc=0;
+		this.tm=0;
+		this.tp=0;
+	}
+
+	public Magazyn(String nazwa_czyn, int czas_trwania, int pocz, int tc,
+			int tm, int tp, int koniec) {
+		super();
+		this.nazwa_czyn = nazwa_czyn;
+		this.czas_trwania = czas_trwania;
+		this.pocz = pocz;
+		this.tc = tc;
+		this.tm = tm;
+		this.tp = tp;
 		this.koniec = koniec;
 	}
 
