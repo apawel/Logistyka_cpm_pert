@@ -39,7 +39,7 @@ public class Mainclass {
 			wejscie="3";		
 		Integer liczba = Integer.parseInt(wejscie);
 	
-		
+		/*****CPM******/
 		switch(liczba)
 		{
 		case 1:
@@ -53,6 +53,7 @@ public class Mainclass {
 	
 			switch(liczba2)
 			{
+			/*****Nastepstwo zdarzen******/
 			case 1:
 				 fd =new FileDialog(a,"Wczytaj",FileDialog.LOAD);			   
 			     fd.setVisible(true);			    
@@ -162,21 +163,28 @@ public class Mainclass {
 			}
 			String krytyczna_sciezka = "";
 			String max = "";
-			int czas_trwania_przeds =0;
+			int czas_trwania_przeds =0;	
+			int numer_poczatku_spr = 0;		
 			for(int i =0;i<krawedz.size();i++)
 			{
-				if(krawedz.get(i).getBegin().isCzy_krytyczna() && krawedz.get(i).getEnd().isCzy_krytyczna())
+				if(krawedz.get(i).getBegin().isCzy_krytyczna() && krawedz.get(i).getEnd().isCzy_krytyczna() && !krawedz.get(i).getBegin().isCzy_polaczaona())
 				{
 					max = krawedz.get(i).getNazwa();
-					for(Edge x: krawedz)
+					//System.out.println("Sprawdzam " + max + " w zdarzeniu poczatkowym " + krawedz.get(i).getBegin().getNumer_zdarzenia());
+					//for(Edge x: krawedz)
+					for(numer_poczatku_spr=krawedz.get(i).getBegin().getNumer_zdarzenia();numer_poczatku_spr<krawedz.size();numer_poczatku_spr++)
 					{
-						
-						if(x.getBegin().getNumer_zdarzenia() == krawedz.get(i).getBegin().getNumer_zdarzenia() && x.getNazwa() != krawedz.get(i).getNazwa())
+						Edge x = krawedz.get(numer_poczatku_spr);
+						if(x.getBegin().getNumer_zdarzenia() == krawedz.get(i).getBegin().getNumer_zdarzenia() && x.getNazwa() != krawedz.get(i).getNazwa() && x.getEnd().isCzy_krytyczna())
 						{
 							if(x.getWeight()>krawedz.get(i).getWeight())
-							{				
+							{			
+							//	System.out.println("Usuwam " + max + " bedac przy krawedzi " + krawedz.get(i).getNazwa());
+							//	System.out.println("bo sprawdzany  " + x.getNazwa()  + " jest rowny " + krawedz.get(i).getNazwa() + " pierwszy ma wiekszy waga od drugiego");
 								max="";				  
 							}
+							//else
+								//System.out.println("Sprawdzany  " + x.getNazwa()  + " laczy sie z tym samym " + krawedz.get(i).getNazwa() + " pierwszy ma mniejsz waga od drugiego");
 							
 								
 						}
@@ -185,7 +193,9 @@ public class Mainclass {
 					}
 					if(max!="")
 					{
+						//System.out.println("Dodaje " + max);
 						czas_trwania_przeds+=krawedz.get(i).getWeight();
+						krawedz.get(i).getBegin().setCzy_polaczaona(true);
 					krytyczna_sciezka += " -> " + max;//+krawedz.get(i).getNazwa();	
 					}
 				}
@@ -202,6 +212,7 @@ public class Mainclass {
 				
 				break;
 			case 2:
+				/*****Poprzednik******/
 				 fd =new FileDialog(a,"Wczytaj",FileDialog.LOAD);			   
 			     fd.setVisible(true);			    
 			     plik=fd.getFile();		
@@ -256,7 +267,7 @@ public class Mainclass {
 			}
 			break;
 		case 2:
-		   
+			/*****PERT******/
 			wejscie = JOptionPane.showInputDialog("Plik z nastepstwem zdarzen (1), plik z poprzednikiem (2), inna wartosc zamyka program."); 
 			if(wejscie == null)
 				wejscie="3";		
@@ -271,23 +282,33 @@ public class Mainclass {
 			switch(liczba2)
 			{
 			case 1:
-						     
+				/*****Nastepstwo zdarzen******/     
 
 			    fd =new FileDialog(a,"Wczytaj",FileDialog.LOAD);			   
 			     fd.setVisible(true);			    
 			     plik=fd.getFile();			    
 				
+			     char nazwa = 'A';
 				int ile_wierzch = 0;
+				int tc,tm,tp;
 				
 				odczyt = new Scanner(new File(plik));
 				ArrayList<Magazyn> magazyn = new ArrayList<>();
 				while(odczyt.hasNext())
 				{
-				nazwa_czyn=odczyt.next();	
-				czas_trwania=Integer.parseInt(odczyt.next());
+				nazwa_czyn=Character.toString(nazwa);	
+				nazwa++;
+				//czas_trwania=Integer.parseInt(odczyt.next());
 				polacz=odczyt.next();
-				pocz=Integer.parseInt(polacz.substring(0,1));
-				koniec=Integer.parseInt(polacz.substring(2,3));
+				pocz=Integer.parseInt(polacz.substring(1,2));
+				koniec=Integer.parseInt(polacz.substring(3,4));
+				tc=Integer.parseInt(odczyt.next());
+				tm=Integer.parseInt(odczyt.next());
+				tp=Integer.parseInt(odczyt.next());
+				czas_trwania=(tc+4*tm+tp)/6;	
+				
+				
+				
 				if(ile_wierzch<koniec)
 				{
 					ile_wierzch=koniec;
@@ -369,7 +390,7 @@ public class Mainclass {
 				
 			
 			/*wyswietlanie*/
-			/*for(int i =0;i<krawedz.size();i++)
+		/*	for(int i =0;i<krawedz.size();i++)
 			{
 				krawedz.get(i).wyswietl();
 			}*/
@@ -383,20 +404,27 @@ public class Mainclass {
 			String krytyczna_sciezka = "";
 			String max = "";
 			int czas_trwania_przeds =0;
+			int numer_poczatku_spr = 0;		
 			for(int i =0;i<krawedz.size();i++)
 			{
-				if(krawedz.get(i).getBegin().isCzy_krytyczna() && krawedz.get(i).getEnd().isCzy_krytyczna())
+				if(krawedz.get(i).getBegin().isCzy_krytyczna() && krawedz.get(i).getEnd().isCzy_krytyczna() && !krawedz.get(i).getBegin().isCzy_polaczaona())
 				{
 					max = krawedz.get(i).getNazwa();
-					for(Edge x: krawedz)
+					//System.out.println("Sprawdzam " + max + " w zdarzeniu poczatkowym " + krawedz.get(i).getBegin().getNumer_zdarzenia());
+					//for(Edge x: krawedz)
+					for(numer_poczatku_spr=krawedz.get(i).getBegin().getNumer_zdarzenia();numer_poczatku_spr<krawedz.size();numer_poczatku_spr++)
 					{
-						
-						if(x.getBegin().getNumer_zdarzenia() == krawedz.get(i).getBegin().getNumer_zdarzenia() && x.getNazwa() != krawedz.get(i).getNazwa())
+						Edge x = krawedz.get(numer_poczatku_spr);
+						if(x.getBegin().getNumer_zdarzenia() == krawedz.get(i).getBegin().getNumer_zdarzenia() && x.getNazwa() != krawedz.get(i).getNazwa() && x.getEnd().isCzy_krytyczna())
 						{
 							if(x.getWeight()>krawedz.get(i).getWeight())
-							{				
+							{			
+							//	System.out.println("Usuwam " + max + " bedac przy krawedzi " + krawedz.get(i).getNazwa());
+							//	System.out.println("bo sprawdzany  " + x.getNazwa()  + " jest rowny " + krawedz.get(i).getNazwa() + " pierwszy ma wiekszy waga od drugiego");
 								max="";				  
 							}
+							//else
+								//System.out.println("Sprawdzany  " + x.getNazwa()  + " laczy sie z tym samym " + krawedz.get(i).getNazwa() + " pierwszy ma mniejsz waga od drugiego");
 							
 								
 						}
@@ -405,7 +433,9 @@ public class Mainclass {
 					}
 					if(max!="")
 					{
+						//System.out.println("Dodaje " + max);
 						czas_trwania_przeds+=krawedz.get(i).getWeight();
+						krawedz.get(i).getBegin().setCzy_polaczaona(true);
 					krytyczna_sciezka += " -> " + max;//+krawedz.get(i).getNazwa();	
 					}
 				}
@@ -421,6 +451,7 @@ public class Mainclass {
 			
 			break;
 			case 2:
+				/*****poprzednik******/
 				 fd =new FileDialog(a,"Wczytaj",FileDialog.LOAD);			   
 			     fd.setVisible(true);			    
 			     plik=fd.getFile();		

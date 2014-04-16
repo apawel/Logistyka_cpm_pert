@@ -5,6 +5,7 @@ public class Vertex {
 	private int najpozniejszy_moment;
 	private int zapas_czasu;
 	private boolean czy_krytyczna;
+	private boolean czy_polaczaona;
 	
 	/**
 	 * 
@@ -14,6 +15,14 @@ public class Vertex {
 		return numer_zdarzenia;
 	}
 	
+	public boolean isCzy_polaczaona() {
+		return czy_polaczaona;
+	}
+
+	public void setCzy_polaczaona(boolean czy_polaczaona) {
+		this.czy_polaczaona = czy_polaczaona;
+	}
+
 	public void setNumer_zdarzenia(int numer_zdarzenia) {
 		this.numer_zdarzenia = numer_zdarzenia;
 	}
@@ -52,6 +61,7 @@ public class Vertex {
 		this.najpozniejszy_moment = najpozniejszy_moment;
 		this.zapas_czasu = zapas_czasu;
 		this.czy_krytyczna = false;
+		this.czy_polaczaona=false;
 	}
 	public void czyKrytyczna()
 	{

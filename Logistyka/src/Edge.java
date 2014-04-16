@@ -9,6 +9,7 @@ private int weight;
 
 
 
+
 public Edge(String nazwa, Vertex begin, Vertex end, int weight) {
 	super();
 	this.nazwa = nazwa;
