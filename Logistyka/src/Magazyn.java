@@ -3,6 +3,26 @@ public class Magazyn {
 	String nazwa_czyn;
 	int czas_trwania;
 	int pocz;
+	int koniec;
+	boolean zmianapocz;
+	boolean zmianakonca;
+	public boolean isZmianapocz() {
+		return zmianapocz;
+	}
+
+	public void setZmianapocz(boolean zmianapocz) {
+		this.zmianapocz = zmianapocz;
+	}
+
+	public boolean isZmianakonca() {
+		return zmianakonca;
+	}
+
+	public void setZmianakonca(boolean zmianakonca) {
+		this.zmianakonca = zmianakonca;
+	}
+
+
 	int tc,tm,tp;
 	
 	public int getTc() {
@@ -70,6 +90,8 @@ public class Magazyn {
 		this.tc=0;
 		this.tm=0;
 		this.tp=0;
+		this.zmianakonca=false;
+		this.zmianapocz=false;
 	}
 
 	public Magazyn(String nazwa_czyn, int czas_trwania, int pocz, int tc,
@@ -82,10 +104,11 @@ public class Magazyn {
 		this.tm = tm;
 		this.tp = tp;
 		this.koniec = koniec;
+		this.zmianakonca=false;
+		this.zmianapocz=false;
 	}
 
-	int koniec;
-
+	
 	public Magazyn() {
 	}
 

@@ -70,7 +70,10 @@ public class Vertex {
 		else
 			this.czy_krytyczna=false;
 	}
-	
+	public void wyswietl()
+	{
+		System.out.println("Numer : "+getNumer_zdarzenia() + " najwcz: " + getNajwczesniejszy_moment() + " najpoz: " + getNajpozniejszy_moment() + " zapas: " + getZapas_czasu());
+	}
 	
 
 }

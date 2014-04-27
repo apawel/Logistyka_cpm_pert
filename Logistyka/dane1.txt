@@ -1,6 +1,9 @@
-A 5 -
-B 3 A
-C 4 -
-D 6 A
-E 4 D
-F 3 B,C,D
+A 2 -
+B 3 -
+C 2 A
+D 2 A
+E 4 B
+F 4 D,E
+G 3 C
+H 5 C
+I 7 F,H

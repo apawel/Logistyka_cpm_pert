@@ -16,7 +16,7 @@ public double getWariancja() {
 	return wariancja;
 }
 public void setWariancja() {
-	
+
 	this.wariancja = Math.pow(((getTp()-getTc())/6),2);
 }
 public boolean isKrytyczna() {
